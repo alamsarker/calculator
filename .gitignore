@@ -1,0 +1,8 @@
+.env
+/vendor/
+/var/cache/*
+/var/logs/*
+/bin/*
+!bin/console
+!bin/symfony_requirements
+/vendor/

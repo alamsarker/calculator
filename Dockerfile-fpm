@@ -1,0 +1,11 @@
+FROM php:7.4.4-fpm
+
+RUN mkdir /app
+COPY . /app
+
+RUN docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql
+
+RUN curl https://getcomposer.org/composer-stable.phar -L > composer.phar \
+  && chmod +x composer.phar \
+  && mv composer.phar /usr/local/bin/composer \
+  && composer --version
