@@ -1,5 +1,6 @@
 .env
 /vendor/
+/var/
 /var/cache/
 /var/logs/
 /bin/*

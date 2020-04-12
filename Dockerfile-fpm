@@ -5,6 +5,8 @@ COPY . /app
 
 RUN docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql
 
+RUN apt-get update && apt-get install -y git
+
 RUN curl https://getcomposer.org/composer-stable.phar -L > composer.phar \
   && chmod +x composer.phar \
   && mv composer.phar /usr/local/bin/composer \
