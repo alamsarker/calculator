@@ -5,9 +5,15 @@ COPY . /app
 
 RUN docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql
 
-RUN apt-get update && apt-get install -y git
-
 RUN curl https://getcomposer.org/composer-stable.phar -L > composer.phar \
   && chmod +x composer.phar \
   && mv composer.phar /usr/local/bin/composer \
   && composer --version
+
+
+RUN apt-get update && apt-get install -y git
+
+RUN apt-get update && apt-get install libxrender1
+RUN apt-get update && apt-get install -y libfontconfig1
+
+RUN apt-get install -y libxml2-dev unzip && docker-php-ext-install soap && docker-php-ext-enable soap
