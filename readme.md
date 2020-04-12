@@ -19,7 +19,7 @@ Step 1: Prerequisites
 Step 2: Install NginX, PHP, Mysql, PhpMyAdmin and vendor packages
 
    * Go to project directory.
-   * Run `mv .env.example .env`.
+   * Run `cp .env.example .env`.
    * Run `make` or `make start`. If it's not working, then try to use `sudo` as `sudo make start`. Also, there can be conflict on ports. Its needed to change the port form `docker-compose.yml` file.
    * Now, go to project directory again opening new tab.
    * Run `make composer` to install vendor packages.

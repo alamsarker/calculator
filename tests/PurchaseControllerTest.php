@@ -9,32 +9,66 @@ class PurchaseControllerTest extends WebTestCase
     public function testIndex()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/purchase/');
+        $client->request('GET', '/purchase/');
        
         $this->assertResponseIsSuccessful();
+        $this->assertPageTitleSame('Purchase List');
         $this->assertSelectorTextContains('td', 'No records found');
     }
 
-    public function testNew()
+    public function testNewGet()
     {
         $client = static::createClient();
         
-        $crawler = $client->request('POST', '/purchase/new', [
-            'quantity' => 1,
-            'price' => 10
-        ]);
+        $client->request('GET', '/purchase/new');        
 
         $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('title', 'Create New Purchase');       
+    }
 
-        //print_r($crawler);
+    public function testNewPost()
+    {
+        $client = static::createClient();
+        $csrfToken = $client
+            ->getContainer()
+            ->get('security.csrf.token_manager')
+            ->getToken('createPurchase')
+            ;
+        
+        $client->request(
+            'POST',
+            '/purchase/new',
+            [
+                'purchase' => [
+                    'quantity' => 1,
+                    'price' => 10,
+                   // '_token' => $csrfToken,
+                ]
+            ]
+        );
+        $this->assertTrue(
+            $client->getResponse()->isRedirect('/purchase/')
+        );
+    }
 
+    public function testIndexWithData()
+    {
+        $client = static::createClient();
+        $client->request(
+            'POST',
+            '/purchase/new',
+            [
+                'purchase' => [
+                    'quantity' => 1,
+                    'price' => 10,                  
+                ]
+            ]
+        );
 
-
-
-        //$this->assertResponseRedirects('http://calculator_nginx_1/purchase/', 301);
-
+        $client->request('GET', '/purchase/');
        
-        // $this->assertResponseIsSuccessful();
-        // $this->assertSelectorTextContains('td', 'No records found');
+        $this->assertResponseIsSuccessful();
+        $this->assertPageTitleSame('Purchase List');
+        $this->assertSelectorTextNotContains('td', 'No records found');
     }
 }

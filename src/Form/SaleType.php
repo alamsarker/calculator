@@ -29,6 +29,8 @@ class SaleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Sale::class,
+            'csrf_protection' => false,
+            'csrf_token_id' => 'createSale',
         ]);
     }
 }
