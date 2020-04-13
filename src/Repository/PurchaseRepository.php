@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -19,9 +19,9 @@ class PurchaseRepository extends ServiceEntityRepository
         parent::__construct($registry, Purchase::class);
     }
 
-    public function totalStock()
+    public function totalStock(): int
     {
-        return $this
+        return (int) $this
             ->getEntityManager()
             ->getConnection()
             ->fetchColumn("SELECT COALESCE(SUM(quantity),0) FROM purchase")

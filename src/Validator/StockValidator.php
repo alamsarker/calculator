@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Validator;
 
@@ -8,10 +8,11 @@ use App\Repository\PurchaseRepository;
 use App\Repository\SaleRepository;
 
 
-class StockValidator extends ConstraintValidator
+final class StockValidator extends ConstraintValidator
 {
-    private $saleRepository;
-    private $purchaseRepository;
+    private SaleRepository $saleRepository;
+    private PurchaseRepository $purchaseRepository;
+
     public function __construct(SaleRepository $saleRepository, PurchaseRepository $purchaseRepository)
     {
         $this->saleRepository = $saleRepository;

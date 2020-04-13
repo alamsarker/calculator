@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
@@ -10,15 +10,25 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Validator\Stock as AvailStock;
 
 
-class SaleType extends AbstractType
+final class SaleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {        
         $builder
-            ->add('quantity', IntegerType::class)            
-            ->add('price', MoneyType::class)
+            ->add('quantity', IntegerType::class, [
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(),
+                    new AvailStock()
+                ],
+            ])            
+            ->add('price', MoneyType::class, [
+                'required' => true,
+            ])
             ->add('Save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
             ]);
@@ -29,8 +39,6 @@ class SaleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Sale::class,
-            'csrf_protection' => false,
-            'csrf_token_id' => 'createSale',
         ]);
     }
 }

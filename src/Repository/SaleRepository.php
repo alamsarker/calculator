@@ -1,4 +1,4 @@
-<?php
+<?php  declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -19,16 +19,16 @@ class SaleRepository extends ServiceEntityRepository
         parent::__construct($registry, Sale::class);
     }
 
-    public function totalStock()
+    public function totalStock(): int
     {
-        return $this
+        return (int) $this
             ->getEntityManager()
             ->getConnection()
             ->fetchColumn("SELECT COALESCE(SUM(quantity),0) FROM sales")
             ;       
     }
 
-    public function getProfit()
+    public function getProfit(): float
     {
         $sql = "SELECT
                 COALESCE(S.totalSold - P.totalCost,0) as profit
@@ -48,7 +48,7 @@ class SaleRepository extends ServiceEntityRepository
             ) as P ON S.id = P.id
         ";
 
-        return $this
+        return (float) $this
             ->getEntityManager()
             ->getConnection()
             ->fetchColumn($sql)

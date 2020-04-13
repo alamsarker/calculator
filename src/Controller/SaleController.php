@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -14,9 +14,9 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/sales")
  */
-class SaleController extends AbstractController
+final class SaleController extends AbstractController
 {
-    protected $saleRepository;
+    private SaleRepository $saleRepository;
 
     public function __construct(SaleRepository $saleRepository)
     {

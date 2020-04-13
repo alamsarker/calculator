@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -13,9 +13,9 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/purchase")
  */
-class PurchaseController extends AbstractController
+final class PurchaseController extends AbstractController
 {
-    protected $purchaseRepository;
+    private PurchaseRepository $purchaseRepository;
 
     public function __construct(PurchaseRepository $purchaseRepository)
     {

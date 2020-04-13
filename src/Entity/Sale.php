@@ -1,11 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\Stock as AvailStock;
-
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SaleRepository")
@@ -21,9 +18,7 @@ class Sale
     private $id;   
 
     /**
-     * @ORM\Column(type="integer")    
-     * @Assert\NotBlank
-     * @AvailStock
+     * @ORM\Column(type="integer")     
      */
     private $quantity;
 

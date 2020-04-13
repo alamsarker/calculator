@@ -1,15 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
-class PurchaseControllerTest extends WebTestCase
+final class PurchaseControllerTest extends WebTestCase
 {
-    public function testIndex()
+    private $client;
+
+    public function setUp() 
     {
-        $client = static::createClient();
-        $client->request('GET', '/purchase/');
+        $this->client = static::createClient();          
+    }
+
+    public function testIndex()
+    {        
+        $this->client->request('GET', '/purchase/');
        
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Purchase List');
@@ -17,44 +24,56 @@ class PurchaseControllerTest extends WebTestCase
     }
 
     public function testNewGet()
-    {
-        $client = static::createClient();
-        
-        $client->request('GET', '/purchase/new');        
+    {                
+        $this->client->request('GET', '/purchase/new');        
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('title', 'Create New Purchase');       
     }
 
+    public function testNewPostWithInvalidParam()
+    {       
+        $crawler = $this->client->request(
+            'POST',
+            '/purchase/new',
+            [
+                'purchase' => [
+                    'quantity' => 'nonNumeric',
+                    'price' => 'nonNumeric',                    
+                ]
+            ]
+        );
+                
+        $errors =  $crawler
+            ->filter('.form-error-message')
+            ->each(fn(Crawler $node) => $node->text());
+
+        foreach($errors as $error) {            
+            $this->assertSame($error, 'This value is not valid.');
+        }                
+    }
+
     public function testNewPost()
-    {
-        $client = static::createClient();
-        $csrfToken = $client
-            ->getContainer()
-            ->get('security.csrf.token_manager')
-            ->getToken('createPurchase')
-            ;
-        
-        $client->request(
+    {                
+        $this->client->request(
             'POST',
             '/purchase/new',
             [
                 'purchase' => [
                     'quantity' => 1,
-                    'price' => 10,
-                   // '_token' => $csrfToken,
+                    'price' => 10,                   
                 ]
             ]
         );
+
         $this->assertTrue(
-            $client->getResponse()->isRedirect('/purchase/')
+            $this->client->getResponse()->isRedirect('/purchase/')
         );
     }
 
     public function testIndexWithData()
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'POST',
             '/purchase/new',
             [
@@ -65,7 +84,7 @@ class PurchaseControllerTest extends WebTestCase
             ]
         );
 
-        $client->request('GET', '/purchase/');
+        $this->client->request('GET', '/purchase/');
        
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Purchase List');

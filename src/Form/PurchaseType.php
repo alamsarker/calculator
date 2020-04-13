@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Form;
 
@@ -12,13 +12,17 @@ use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-class PurchaseType extends AbstractType
+final class PurchaseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('quantity', IntegerType::class)            
-            ->add('price', MoneyType::class)
+            ->add('quantity', IntegerType::class, [
+                'required' => true,
+            ])            
+            ->add('price', MoneyType::class, [
+                'required' => true,
+            ])
             ->add('Save', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
             ]);
@@ -29,8 +33,6 @@ class PurchaseType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Purchase::class,
-            'csrf_protection' => false,
-            'csrf_token_id' => 'createPurchase',
         ]);
     }
 }

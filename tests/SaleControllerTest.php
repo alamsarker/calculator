@@ -1,26 +1,54 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\DomCrawler\Crawler;
 
-class SaleControllerTest extends WebTestCase
+
+final class SaleControllerTest extends WebTestCase
 {
+    private $client;
+
+    public function setUp() 
+    {
+        $this->client = static::createClient();          
+    }
+
     public function testIndex()
     {
-        $client = static::createClient();
-        $client->request('GET', '/sales/');
+        $this->client->request('GET', '/sales/');
        
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Sales List');
         $this->assertSelectorTextContains('td', 'No records found');
     }
 
+    public function testNewPostWithInvalidParam()
+    {       
+        $crawler = $this->client->request(
+            'POST',
+            '/sales/new',
+            [
+                'sale' => [
+                    'quantity' => 'nonNumeric',
+                    'price' => 'nonNumeric',                    
+                ]
+            ]
+        );
+                
+        $errors =  $crawler
+            ->filter('.form-error-message')
+            ->each(fn(Crawler $node) => $node->text());
+
+        foreach($errors as $error) {            
+            $this->assertSame($error, 'This value is not valid.');
+        }                
+    }
+
     public function testNewGet()
-    {
-        $client = static::createClient();
-        
-        $client->request('GET', '/sales/new');        
+    {        
+        $this->client->request('GET', '/sales/new');        
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('title', 'Create New Sale');
@@ -29,9 +57,7 @@ class SaleControllerTest extends WebTestCase
 
     public function testNewPostWithNoStock()
     {
-        $client = static::createClient();
-        
-        $client->request(
+        $crawler = $this->client->request(
             'POST',
             '/sales/new',
             [
@@ -41,20 +67,15 @@ class SaleControllerTest extends WebTestCase
                 ]
             ]
         );
+
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('title', 'Create New Sale');        
+        $this->assertSelectorTextContains('title', 'Create New Sale');          
+        $this->assertSame('No stock available for sale.', $crawler->filter('.form-error-message')->text());
     }
 
     public function testNewPost()
-    {
-        $client = static::createClient();
-        $csrfToken = $client
-            ->getContainer()
-            ->get('security.csrf.token_manager')
-            ->getToken('createSale')
-            ;
-
-        $client->request(
+    {       
+        $this->client->request(
             'POST',
             '/purchase/new',
             [
@@ -65,7 +86,7 @@ class SaleControllerTest extends WebTestCase
             ]
         );
         
-        $client->request(
+        $this->client->request(
             'POST',
             '/sales/new',
             [
@@ -77,15 +98,13 @@ class SaleControllerTest extends WebTestCase
         );
         
         $this->assertTrue(
-            $client->getResponse()->isRedirect('/sales/')
+            $this->client->getResponse()->isRedirect('/sales/')
         );
     }
 
     public function testIndexWithData()
     {
-        $client = static::createClient();
-
-        $crawler = $client->request(
+        $this->client->request(
             'POST',
             '/purchase/new',
             [
@@ -96,7 +115,7 @@ class SaleControllerTest extends WebTestCase
             ]
         );
 
-        $client->request(
+        $this->client->request(
             'POST',
             '/sales/new',
             [
@@ -106,9 +125,8 @@ class SaleControllerTest extends WebTestCase
                 ]
             ]
         );
-
         
-        $client->request('GET', '/sales/');
+        $this->client->request('GET', '/sales/');
        
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Sales List');
@@ -116,9 +134,8 @@ class SaleControllerTest extends WebTestCase
     }
 
     public function testProfit()
-    {
-        $client = static::createClient();
-        $client->request(
+    {        
+        $this->client->request(
             'POST',
             '/purchase/new',
             [
@@ -129,7 +146,7 @@ class SaleControllerTest extends WebTestCase
             ]
         );
 
-        $client->request(
+        $this->client->request(
             'POST',
             '/sales/new',
             [
@@ -140,7 +157,7 @@ class SaleControllerTest extends WebTestCase
             ]
         );
         
-        $client->request('GET', '/sales/profit');     
+        $this->client->request('GET', '/sales/profit');     
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h3', 'Profit: 10');

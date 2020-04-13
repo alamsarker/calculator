@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Tests\Validator;
 
@@ -11,10 +11,10 @@ use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Violation\ConstraintViolationBuilder;
 
 
-class StockValidatorTest extends TestCase
+final class StockValidatorTest extends TestCase
 {
-    private $saleRepositoryMock;
-    private $purchaseRepositoryMock;
+    private SaleRepository $saleRepositoryMock;
+    private PurchaseRepository $purchaseRepositoryMock;
 
     protected function setUp()
     {
