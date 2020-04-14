@@ -50,7 +50,7 @@ All done? Lets browse:
 >
 > Reference: Please see [here](https://dev.mysql.com/doc/refman/8.0/en/user-variables.html).
 3) The code has been implemented based on the problem. That's why productId is missing in purchase and sales table.
-4) Basically `purchase` table will be `purchase_items` and `sales` table will be `sale_items`. For the simplicty,ralated necessary tables and fields are not included.
+4) Basically `purchase` table will be `purchase_items` and `sales` table will be `sale_items`. For the simplicty, related necessary tables and fields are not included.
 5) Database will be empty for each `make` commad - its intentional.
 6) Skip adding comments on class and methods for preparaing documentation by phpDocs.
 
