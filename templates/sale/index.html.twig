@@ -3,7 +3,7 @@
 {% block title %}Sales List{% endblock %}
 
 {% block body %}
-	<div class="card"> 
+	<div class="card">
 		<div class="card-header">
 			Sales List
 			<a href="{{ path('newSale') }}" class="btn btn-primary btn-sm" role="button">Create New</a>
@@ -12,17 +12,15 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Quantity</th>
-						<th>Price</th>  
+						<th>Price</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for sale in sales %}
 						<tr>
-							<td>{{ sale.id }}</td>
 							<td>{{ sale.quantity }}</td>
-							<td>{{ sale.price }}</td>                        
+							<td>{{ sale.price }}</td>
 						</tr>
 					{% else %}
 						<tr>
@@ -30,7 +28,7 @@
 						</tr>
 					{% endfor %}
 				</tbody>
-			</table>         
+      </table>
 		</div>
-	</div>    
+	</div>
 {% endblock %}

@@ -42,7 +42,7 @@ final class PurchaseController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->purchaseRepository->save($purchase);            
+            $this->purchaseRepository->save($purchase);
 
             return $this->redirectToRoute('purchaseList');
         }

@@ -31,7 +31,7 @@ All done? Lets browse:
 
 ## Unit Tests
 
-`make phpunit` command will run both feature and unit tests. `calculator_test` database has been created for feature test. For the first time, it will download all necessary packages.
+`make phpunit` command will run both feature and unit tests. `calculator_test` database has been created for feature test and `ama/doctrine-test-bundle` package has been installed for reseting database for every test run. So, it won't be conflict for every test command. For the first time, it will download all necessary packages.
 
 ## Feature Notes
 

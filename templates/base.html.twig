@@ -9,32 +9,17 @@
           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
           <style>
-            .body-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }              
+            .body-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
           </style>
         {% endblock %}
     </head>
     <body>
-        {% block header %}
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">Margin Calculator</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">                
-                <a class="nav-item nav-link" href="/purchase">Purchase</a>
-                <a class="nav-item nav-link" href="/sales">Sales</a>
-                <a class="nav-item nav-link" href="/sales/profit">Profit</a>                
-              </div>
-            </div>
-          </nav>
-        {% endblock %}
-        
+			  {{ include('header.html.twig') }}
+
         <div class="container body-wrapper">
           {% block body %}{% endblock %}
         </div>
-        
-        {% block footer %}{% endblock %}
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

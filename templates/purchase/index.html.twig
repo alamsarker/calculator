@@ -3,7 +3,7 @@
 {% block title %}Purchase List{% endblock %}
 
 {% block body %}
-	<div class="card"> 
+	<div class="card">
 		<div class="card-header">
 				Purchase List
 				<a href="{{ path('newPurchase') }}" class="btn btn-primary btn-sm" role="button">Create New</a>
@@ -12,17 +12,15 @@
 			<table class="table">
 				<thead>
 					<tr>
-						<th>Id</th>
 						<th>Quantity</th>
-						<th>Price</th>            
+						<th>Price</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for purchase in purchases %}
 						<tr>
-							<td>{{ purchase.id }}</td>
-							<td>{{ purchase.quantity }}</td>            
-							<td>{{ purchase.price }}</td>               
+							<td>{{ purchase.quantity }}</td>
+							<td>{{ purchase.price }}</td>
 						</tr>
 					{% else %}
 						<tr>
@@ -30,7 +28,7 @@
 						</tr>
 					{% endfor %}
 				</tbody>
-			</table>         
+			</table>
 		</div>
-	</div>     
+	</div>
 {% endblock %}
