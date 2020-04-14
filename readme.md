@@ -51,4 +51,10 @@ All done? Lets browse:
 > Reference: Please see [here](https://dev.mysql.com/doc/refman/8.0/en/user-variables.html).
 3) The code has been implemented based on the problem. That's why productId is missing in purchase and sales table.
 4) Basically `purchase` table will be `purchase_items` and `sales` table will be `sale_items`. For the simplicty,ralated necessary tables and fields are not included.
-5) Symfony commnad has been used to generate code. Generated code with no business logic has excluded from unit test.
+5) Database will be empty for each `make` commad - its intentional.
+6)
+
+
+## Sytem Configuration
+
+Four container has been used with each of .5 core of total 2 CPU core and 4GB RAM has been distributed that can bee seen by `docker stats` command.

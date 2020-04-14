@@ -1,4 +1,4 @@
-version: '2'
+version: '2.2'
 networks:
   basic:
     driver:
@@ -11,6 +11,8 @@ services:
   nginx:
     networks:
       - basic
+    mem_limit: 500m
+    cpus: 0.5
     build:
       dockerfile: Dockerfile-nginx
       context: .
@@ -23,6 +25,8 @@ services:
   fpm:
     networks:
       - basic
+    mem_limit: 1500m
+    cpus: 0.5
     volumes:
       - .:/var/www/html
     ports:
@@ -34,8 +38,10 @@ services:
       - db
   db:
     networks:
-      - basic  
+      - basic
     image: mysql:5.7.17
+    mem_limit: 1500m
+    cpus: 0.5
     links:
       - myadmin
     ports:
@@ -52,10 +58,12 @@ services:
     networks:
       - basic
     image: phpmyadmin/phpmyadmin
+    mem_limit: 500m
+    cpus: 0.5
     ports:
       - "8082:80"
     environment:
-      MYSQL_ROOT_PASSWORD: calculator      
+      MYSQL_ROOT_PASSWORD: calculator
       MYSQL_USER: calculator
       MYSQL_PASSWORD: calculator
 

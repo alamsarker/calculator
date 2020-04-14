@@ -17,10 +17,13 @@ final class SaleControllerTest extends WebTestCase
 
     public function testIndexWithNoData()
     {
-        $this->client->request('GET', '/sales/');
+        $crawler = $this->client->request('GET', '/sales/');
 
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Sales List');
+        $this->assertSame('Create New', $crawler->filter('.ft-create-new-link')->text());
+        $this->assertSame('Quantity', $crawler->filter('thead > tr')->children()->eq(0)->text());
+        $this->assertSame('Price', $crawler->filter('thead > tr')->children()->eq(1)->text());
         $this->assertSelectorTextContains('td', 'No records found');
     }
 
@@ -57,10 +60,11 @@ final class SaleControllerTest extends WebTestCase
 
     public function testNewGet()
     {
-        $this->client->request('GET', '/sales/new');
+        $crawler = $this->client->request('GET', '/sales/new');
 
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('title', 'Create New Sale');
+        $this->assertSame('Back', $crawler->filter('.ft-back-link')->text());
     }
 
     public function testNewPostWithInvalidParam()
@@ -161,6 +165,7 @@ final class SaleControllerTest extends WebTestCase
         $this->client->request('GET', '/sales/profit');
 
         $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('title', 'Sales Margin Profit');
         $this->assertSelectorTextContains('h3', 'Profit: 10');
     }
 }

@@ -53,7 +53,7 @@ final class SaleController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->saleRepository->save($sale);    
+            $this->saleRepository->save($sale);
 
             return $this->redirectToRoute('salesList');
         }

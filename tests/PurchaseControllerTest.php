@@ -16,8 +16,11 @@ final class PurchaseControllerTest extends WebTestCase
 
     public function testIndexWithNoData()
     {
-        $this->client->request('GET', '/purchase/');
+        $crawler = $this->client->request('GET', '/purchase/');
 
+        $this->assertSame('Create New', $crawler->filter('.ft-create-new-link')->text());
+        $this->assertSame('Quantity', $crawler->filter('thead > tr')->children()->eq(0)->text());
+        $this->assertSame('Price', $crawler->filter('thead > tr')->children()->eq(1)->text());
         $this->assertResponseIsSuccessful();
         $this->assertPageTitleSame('Purchase List');
         $this->assertSelectorTextContains('td', 'No records found');
@@ -45,9 +48,10 @@ final class PurchaseControllerTest extends WebTestCase
 
     public function testNewGet()
     {
-        $this->client->request('GET', '/purchase/new');
+        $crawler = $this->client->request('GET', '/purchase/new');
 
         $this->assertResponseIsSuccessful();
+        $this->assertSame('Back', $crawler->filter('.ft-back-link')->text());
         $this->assertSelectorTextContains('title', 'Create New Purchase');
     }
 
