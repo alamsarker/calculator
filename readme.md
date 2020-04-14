@@ -31,7 +31,7 @@ All done? Lets browse:
 
 ## Unit Tests
 
-`make phpunit` command will run both feature and unit tests. `calculator_test` database has been created for feature test and `ama/doctrine-test-bundle` package has been installed for reseting database for every test run. So, it won't be conflict for every test command. For the first time, it will download all necessary packages.
+`make phpunit` command will run both feature and unit tests. `calculator_test` database has been created for feature test and `dama/doctrine-test-bundle` package has been installed for reseting database for every test run. So, it won't be conflict for every test command. For the first time, it will download all necessary packages.
 
 ## Feature Notes
 
@@ -54,11 +54,11 @@ All done? Lets browse:
 5) Database will be empty for each `make` commad - its intentional.
 6) Skip adding comments on class and methods for preparaing documentation by phpDocs.
 
-## Sytem Configuration
+## System Configuration
 
-4GB RAM has been distruted on four containers with each of `.5` core CPU of total 2 cpu core.
+4GB RAM has been distributed on four containers with each of `.5` core cpu of total 2 cpu core.
 
-Example of response of 1K ( 20 concurrent) requests by `Ab` banchmarking tool with 4GB RAM and 2CPU Core system.
+Example of response of 1K ( 20 concurrent) requests by `Ab` banchmarking tool with 4GB RAM and 2 cpu Core system.
 ```
 ➜  ~ docker stats
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
