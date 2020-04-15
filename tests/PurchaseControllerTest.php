@@ -73,7 +73,7 @@ final class PurchaseControllerTest extends WebTestCase
     }
 
     /**
-     * Test creating a new purchae with in valid param.
+     * Test creating a new purchase with in valid param.
      * It should show error message.
      */
     public function testNewPostWithInvalidParam()

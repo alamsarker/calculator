@@ -37,7 +37,7 @@ final class StockValidatorTest extends TestCase
     }
 
     /**
-     * Assert true with valide stock
+     * Assert true with valid stock
      */
     public function testValidateWithStock()
     {

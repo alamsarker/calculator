@@ -26,7 +26,7 @@ class SaleRepository extends ServiceEntityRepository
     /**
      * Get the total number of quantity of all sales.
      *
-     * @return int Total number of quantities
+     * @return int Total number of quantity
      */
     public function totalStock(): int
     {

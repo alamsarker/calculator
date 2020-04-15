@@ -23,8 +23,8 @@ final class StockValidator extends ConstraintValidator
     /**
      * @var SaleRepository $saleRepository The sale repository
      */
-
     private SaleRepository $saleRepository;
+
     /**
      * @var PurchaseRepository $purchaseRepository the purchase repository
      */
@@ -32,7 +32,7 @@ final class StockValidator extends ConstraintValidator
 
     /**
      * @param SaleRepository $saleRepository The sale repository
-     * @param PurchaseRepository $purchaseRepository the purchase repository
+     * @param PurchaseRepository $purchaseRepository The purchase repository
      */
     public function __construct(SaleRepository $saleRepository, PurchaseRepository $purchaseRepository)
     {
@@ -41,7 +41,7 @@ final class StockValidator extends ConstraintValidator
     }
 
     /**
-     * Validate whether the purchase stock is avaiable or not.
+     * Validate whether the purchase stock is available or not.
      *
      * @param float|null @value The sold quantity
      * @param Constraint $constraint
