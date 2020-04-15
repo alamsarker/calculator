@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -6,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PurchaseRepository")
- * 
+ *
  */
 class Purchase
 {
@@ -15,12 +17,12 @@ class Purchase
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;   
+    private $id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $quantity;    
+    private $quantity;
 
     /**
      * @ORM\Column(type="float")

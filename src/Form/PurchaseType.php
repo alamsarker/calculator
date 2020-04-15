@@ -1,25 +1,38 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
+use Symfony\Component\Form\{
+    AbstractType,
+    FormBuilderInterface,
+};
+use Symfony\Component\Form\Extension\Core\Type\{
+    MoneyType,
+    IntegerType,
+    HiddenType,
+    SubmitType,
+};
 use App\Entity\Purchase;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-
+/**
+ * Prepare the purchase form
+ */
 final class PurchaseType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('quantity', IntegerType::class, [
                 'required' => true,
-            ])            
+            ])
             ->add('price', MoneyType::class, [
                 'required' => true,
             ])
@@ -29,6 +42,10 @@ final class PurchaseType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

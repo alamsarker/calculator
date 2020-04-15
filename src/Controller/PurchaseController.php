@@ -1,29 +1,45 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Purchase;
-use App\Form\PurchaseType;
-use App\Repository\PurchaseRepository;
+use App\{
+    Entity\Purchase,
+    Form\PurchaseType,
+    Repository\PurchaseRepository,
+};
+use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * PurchaseController
+ *
+ * Performs the crud operation of purchases.
+ *
  * @Route("/purchase")
  */
 final class PurchaseController extends AbstractController
 {
+    /**
+     * @var PurchaseRepository $purchaseRepository The purchase repository
+     */
     private PurchaseRepository $purchaseRepository;
 
+    /**
+     * @param PurchaseRepository $purchaseRepository The purchase repository
+     */
     public function __construct(PurchaseRepository $purchaseRepository)
     {
         $this->purchaseRepository = $purchaseRepository;
     }
 
     /**
+     * Render the list of purchases
+     *
      * @Route("/", name="purchaseList", methods={"GET"})
+     * @return Response
      */
     public function index(): Response
     {
@@ -33,7 +49,10 @@ final class PurchaseController extends AbstractController
     }
 
     /**
+     * Create a new purchase
+     *
      * @Route("/new", name="newPurchase", methods={"GET","POST"})
+     * @return Response
      */
     public function new(Request $request): Response
     {

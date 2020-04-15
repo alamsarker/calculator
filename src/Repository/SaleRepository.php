@@ -1,4 +1,6 @@
-<?php  declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -6,13 +8,26 @@ use App\Entity\Sale;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * SaleRepository
+ *
+ * Handle all query related task of sale.
+ */
 class SaleRepository extends ServiceEntityRepository
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Sale::class);
     }
 
+    /**
+     * Get the total number of quantity of all sales.
+     *
+     * @return int Total number of quantities
+     */
     public function totalStock(): int
     {
         return (int) $this
@@ -22,6 +37,11 @@ class SaleRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * Get the total profit from the given sequences of purchases and sales.
+     *
+     * @return float Total Profit
+     */
     public function getProfit(): float
     {
         $sql = "SELECT
@@ -49,6 +69,12 @@ class SaleRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * Save a new sale
+     *
+     * @param Sale $sale The Sale object
+     * @return void
+     */
     public function save(Sale $sale): void
     {
         $this->getEntityManager()->persist($sale);

@@ -1,23 +1,36 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Form;
 
+use Symfony\Component\Form\{
+    AbstractType,
+    FormBuilderInterface,
+};
+use Symfony\Component\Form\Extension\Core\Type\{
+    MoneyType,
+    IntegerType,
+    HiddenType,
+    SubmitType,
+};
 use App\Entity\Sale;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use App\Validator\Stock as AvailStock;
 
-
+/**
+ * Prepare the sale form
+ */
 final class SaleType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @return void
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
-    {        
+    {
         $builder
             ->add('quantity', IntegerType::class, [
                 'required' => true,
@@ -25,7 +38,7 @@ final class SaleType extends AbstractType
                     new NotBlank(),
                     new AvailStock()
                 ],
-            ])            
+            ])
             ->add('price', MoneyType::class, [
                 'required' => true,
             ])
@@ -35,6 +48,10 @@ final class SaleType extends AbstractType
         ;
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     * @return void
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

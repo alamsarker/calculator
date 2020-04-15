@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -15,10 +17,10 @@ class Sale
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;   
+    private $id;
 
     /**
-     * @ORM\Column(type="integer")     
+     * @ORM\Column(type="integer")
      */
     private $quantity;
 
@@ -30,7 +32,7 @@ class Sale
     public function getId(): ?int
     {
         return $this->id;
-    }    
+    }
 
     public function getQuantity(): ?int
     {

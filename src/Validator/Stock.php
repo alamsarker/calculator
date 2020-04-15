@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Validator;
 
@@ -8,6 +10,9 @@ use Symfony\Component\Validator\Constraint;
  * @Annotation
  */
 class Stock extends Constraint
-{    
-    public $message = 'No stock available for sale.';
+{
+    /**
+     * @var string $message The error message is shown if not stock avaiable on sale.
+     */
+    public string $message = 'No stock available for sale.';
 }

@@ -1,11 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * Feature test the Home Controller
+ */
 final class HomeControllerTest extends WebTestCase
 {
+    /**
+     * Assert Home page
+     */
     public function testHome()
     {
         $client = static::createClient();

@@ -1,19 +1,33 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Validator;
 
+use App\Validator\{Stock, StockValidator};
+use App\Repository\{
+    PurchaseRepository,
+    SaleRepository,
+};
+use Symfony\Component\Validator\{
+    Context\ExecutionContext,
+    Violation\ConstraintViolationBuilder,
+};
 use PHPUnit\Framework\TestCase;
-use App\Validator\StockValidator;
-use App\Repository\PurchaseRepository;
-use App\Repository\SaleRepository;
-use App\Validator\Stock;
-use Symfony\Component\Validator\Context\ExecutionContext;
-use Symfony\Component\Validator\Violation\ConstraintViolationBuilder;
 
-
+/**
+ * StockValidatorTest
+ */
 final class StockValidatorTest extends TestCase
 {
+    /**
+     * @var SaleRepository $saleRepositoryMock;
+     */
     private SaleRepository $saleRepositoryMock;
+
+    /**
+     * @var PurchaseRepository $purchaseRepositoryMock;
+     */
     private PurchaseRepository $purchaseRepositoryMock;
 
     protected function setUp()
@@ -22,6 +36,9 @@ final class StockValidatorTest extends TestCase
         $this->purchaseRepositoryMock = $this->createPartialMock(PurchaseRepository::class, ['totalStock']);
     }
 
+    /**
+     * Assert true with valide stock
+     */
     public function testValidateWithStock()
     {
         $this->saleRepositoryMock
@@ -37,16 +54,19 @@ final class StockValidatorTest extends TestCase
             ;
 
         $constrain = $this->createMock(Stock::class);
-        
+
         $stockValidator = new StockValidator(
-            $this->saleRepositoryMock, 
+            $this->saleRepositoryMock,
             $this->purchaseRepositoryMock
         );
 
         $response = $stockValidator->validate(1, $constrain);
-        $this->assertTrue($response);        
+        $this->assertTrue($response);
     }
 
+    /**
+     * Should assert error as no stock available
+     */
     public function testValidateWithNoStock()
     {
         $stock = 1;
@@ -63,9 +83,9 @@ final class StockValidatorTest extends TestCase
             ;
 
         $constraint = $this->createMock(Stock::class);
-        
+
         $stockValidator = new StockValidator(
-            $this->saleRepositoryMock, 
+            $this->saleRepositoryMock,
             $this->purchaseRepositoryMock
         );
 
@@ -75,10 +95,10 @@ final class StockValidatorTest extends TestCase
         ]);
 
         $contextMock = $this->createPartialMock(
-            ExecutionContext::class, [ 
+            ExecutionContext::class, [
             'buildViolation'
         ]);
-        
+
         $contextMock
             ->expects($this->once())
             ->method("buildViolation")
@@ -88,10 +108,10 @@ final class StockValidatorTest extends TestCase
 
         $constraintViolationBuilderMock
             ->expects($this->once())
-            ->method("addViolation")            
+            ->method("addViolation")
             ;
 
         $stockValidator->initialize($contextMock);
-        $stockValidator->validate($stock, $constraint);        
+        $stockValidator->validate($stock, $constraint);
     }
 }

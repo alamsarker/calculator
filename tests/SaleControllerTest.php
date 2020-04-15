@@ -1,13 +1,20 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-
+/**
+ * Feature test the Sale Controller
+ */
 final class SaleControllerTest extends WebTestCase
 {
+    /**
+     * @var private @client
+     */
     private $client;
 
     public function setUp()
@@ -15,6 +22,9 @@ final class SaleControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
+    /**
+     * Test the sales list page where no data found.
+     */
     public function testIndexWithNoData()
     {
         $crawler = $this->client->request('GET', '/sales/');
@@ -27,6 +37,9 @@ final class SaleControllerTest extends WebTestCase
         $this->assertSelectorTextContains('td', 'No records found');
     }
 
+    /**
+     * Test the sales list page that check data show properly.
+     */
     public function testIndexWithData()
     {
         $this->client->request(
@@ -58,6 +71,9 @@ final class SaleControllerTest extends WebTestCase
         $this->assertSelectorTextNotContains('td', 'No records found');
     }
 
+    /**
+     * Test the sale create page shows properly.
+     */
     public function testNewGet()
     {
         $crawler = $this->client->request('GET', '/sales/new');
@@ -67,6 +83,10 @@ final class SaleControllerTest extends WebTestCase
         $this->assertSame('Back', $crawler->filter('.ft-back-link')->text());
     }
 
+    /**
+     * Test creating a new sale with in valid param.
+     * It should show error message.
+     */
     public function testNewPostWithInvalidParam()
     {
         $crawler = $this->client->request(
@@ -85,11 +105,14 @@ final class SaleControllerTest extends WebTestCase
             ->each(fn(Crawler $node) => $node->text())
             ;
 
-        foreach($errors as $error) {
+        foreach ($errors as $error) {
             $this->assertSame($error, 'This value is not valid.');
         }
     }
 
+    /**
+     * Test no stock available for sales.
+     */
     public function testNewPostWithNoStock()
     {
         $crawler = $this->client->request(
@@ -108,6 +131,9 @@ final class SaleControllerTest extends WebTestCase
         $this->assertSame('No stock available for sale.', $crawler->filter('.form-error-message')->text());
     }
 
+    /**
+     * Test creating a new sale.
+     */
     public function testNewPost()
     {
         $this->client->request(
@@ -137,7 +163,9 @@ final class SaleControllerTest extends WebTestCase
         );
     }
 
-
+    /**
+     * Test generating profit properly.
+     */
     public function testProfit()
     {
         $this->client->request(

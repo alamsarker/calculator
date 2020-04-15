@@ -1,30 +1,45 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Sale;
-use App\Form\SaleType;
-use App\Repository\SaleRepository;
-
+use App\{
+    Entity\Sale,
+    Form\SaleType,
+    Repository\SaleRepository,
+};
+use Symfony\Component\HttpFoundation\{Request,Response};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * SaleController
+ *
+ * Performs the crud operation of sales.
+ *
  * @Route("/sales")
  */
 final class SaleController extends AbstractController
 {
+    /**
+     * @var SaleRepository $saleRepository The sale repository.
+     */
     private SaleRepository $saleRepository;
 
+    /**
+     * @param SaleRepository $saleRepository The sale repository.
+     */
     public function __construct(SaleRepository $saleRepository)
     {
         $this->saleRepository = $saleRepository;
     }
 
     /**
+     * Render the list of sales
+     *
      * @Route("/", name="salesList", methods={"GET"})
+     * @return Response
      */
     public function index(): Response
     {
@@ -34,7 +49,10 @@ final class SaleController extends AbstractController
     }
 
     /**
+     * Render the profit of all sold items.
+     *
      * @Route("/profit", name="profit", methods={"GET"})
+     * @return Response
      */
     public function profit(): Response
     {
@@ -44,7 +62,10 @@ final class SaleController extends AbstractController
     }
 
     /**
+     * Create a new sale.
+     *
      * @Route("/new", name="newSale", methods={"GET","POST"})
+     * @return Response
      */
     public function new(Request $request): Response
     {

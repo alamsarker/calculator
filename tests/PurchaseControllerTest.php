@@ -1,12 +1,20 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
+/**
+ * Feature test the Purchase Controller.
+ */
 final class PurchaseControllerTest extends WebTestCase
 {
+    /**
+     * @var private $client
+     */
     private $client;
 
     public function setUp()
@@ -14,6 +22,9 @@ final class PurchaseControllerTest extends WebTestCase
         $this->client = static::createClient();
     }
 
+    /**
+     * Test the purchase list page where no data found.
+     */
     public function testIndexWithNoData()
     {
         $crawler = $this->client->request('GET', '/purchase/');
@@ -26,6 +37,9 @@ final class PurchaseControllerTest extends WebTestCase
         $this->assertSelectorTextContains('td', 'No records found');
     }
 
+    /**
+     * Test the purchase list page that check data show properly.
+     */
     public function testIndexWithData()
     {
         $this->client->request(
@@ -46,6 +60,9 @@ final class PurchaseControllerTest extends WebTestCase
         $this->assertSelectorTextNotContains('td', 'No records found');
     }
 
+    /**
+     * Test the purchase create page shows properly.
+     */
     public function testNewGet()
     {
         $crawler = $this->client->request('GET', '/purchase/new');
@@ -55,6 +72,10 @@ final class PurchaseControllerTest extends WebTestCase
         $this->assertSelectorTextContains('title', 'Create New Purchase');
     }
 
+    /**
+     * Test creating a new purchae with in valid param.
+     * It should show error message.
+     */
     public function testNewPostWithInvalidParam()
     {
         $crawler = $this->client->request(
@@ -73,11 +94,14 @@ final class PurchaseControllerTest extends WebTestCase
             ->each(fn(Crawler $node) => $node->text())
             ;
 
-        foreach($errors as $error) {
+        foreach ($errors as $error) {
             $this->assertSame($error, 'This value is not valid.');
         }
     }
 
+    /**
+     * Test creating a new purchase.
+     */
     public function testNewPost()
     {
         $this->client->request(
