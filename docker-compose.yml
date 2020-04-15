@@ -53,7 +53,6 @@ services:
       MYSQL_PASSWORD: calculator
     volumes:
       - "./data:/docker-entrypoint-initdb.d"
-      #- "./data/mysql:/var/lib/mysql"
   myadmin:
     networks:
       - basic

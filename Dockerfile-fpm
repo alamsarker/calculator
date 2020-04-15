@@ -12,8 +12,4 @@ RUN curl https://getcomposer.org/composer-stable.phar -L > composer.phar \
 
 
 RUN apt-get update && apt-get install -y git
-
-RUN apt-get update && apt-get install libxrender1
-RUN apt-get update && apt-get install -y libfontconfig1
-
-RUN apt-get install -y libxml2-dev unzip && docker-php-ext-install soap && docker-php-ext-enable soap
+RUN apt-get install -y libxml2-dev unzip
