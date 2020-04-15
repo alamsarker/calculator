@@ -9,7 +9,7 @@ use App\{
     Form\SaleType,
     Repository\SaleRepository,
 };
-use Symfony\Component\HttpFoundation\{Request,Response};
+use Symfony\Component\HttpFoundation\{Request, Response};
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 

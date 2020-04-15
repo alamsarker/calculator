@@ -13,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
 final class SaleControllerTest extends WebTestCase
 {
     /**
-     * @var private @client
+     * @var private $client
      */
     private $client;
 
